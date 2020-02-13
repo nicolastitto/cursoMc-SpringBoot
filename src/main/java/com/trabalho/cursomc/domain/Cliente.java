@@ -4,34 +4,43 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.trabalho.cursomc.domain.enuns.TipoCliente;
 
 @Entity
-public class Distrito implements Serializable {
+public class Cliente implements Serializable{
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private String email;
+	private Integer tipo;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "distritos")
-	private Set<AreaUrbana> areasUrbanas = new HashSet<>();
+	@OneToMany(mappedBy = "cliente")
+	private Set<Endereco> enderecos = new HashSet<>();
+	
+	@ElementCollection
+	@CollectionTable(name = "TELEFONE")
+	private Set<String> telefone = new HashSet<>();
 
-	public Distrito() {
+	public Cliente() {
 	}
 
-	public Distrito(Long id, String nome) {
+	public Cliente(Long id, String nome, String email, TipoCliente tipo) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.email = email;
+		this.tipo = tipo.getCod();
 	}
 
 	public Long getId() {
@@ -50,12 +59,36 @@ public class Distrito implements Serializable {
 		this.nome = nome;
 	}
 
-	public Set<AreaUrbana> getAreasUrbanas() {
-		return areasUrbanas;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setAreasUrbanas(Set<AreaUrbana> areasUrbanas) {
-		this.areasUrbanas = areasUrbanas;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public TipoCliente getTipo() {
+		return TipoCliente.toEnum(tipo);
+	}
+
+	public void setTipo(TipoCliente tipo) {
+		this.tipo = tipo.getCod();
+	}
+
+	public Set<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(Set<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public Set<String> getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(Set<String> telefone) {
+		this.telefone = telefone;
 	}
 
 	@Override
@@ -74,7 +107,7 @@ public class Distrito implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Distrito other = (Distrito) obj;
+		Cliente other = (Cliente) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -82,4 +115,6 @@ public class Distrito implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 }

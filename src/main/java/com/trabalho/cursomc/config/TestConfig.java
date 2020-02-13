@@ -9,11 +9,16 @@ import org.springframework.context.annotation.Profile;
 
 import com.trabalho.cursomc.domain.AreaUrbana;
 import com.trabalho.cursomc.domain.Categoria;
+import com.trabalho.cursomc.domain.Cliente;
 import com.trabalho.cursomc.domain.Distrito;
+import com.trabalho.cursomc.domain.Endereco;
 import com.trabalho.cursomc.domain.Produto;
+import com.trabalho.cursomc.domain.enuns.TipoCliente;
 import com.trabalho.cursomc.repositories.AreaUrbanaRepository;
 import com.trabalho.cursomc.repositories.CategoriaRepository;
+import com.trabalho.cursomc.repositories.ClienteRepository;
 import com.trabalho.cursomc.repositories.DistritoRepository;
+import com.trabalho.cursomc.repositories.EnderecoRepository;
 import com.trabalho.cursomc.repositories.ProdutoRepository;
 
 @Configuration
@@ -28,6 +33,10 @@ public class TestConfig implements CommandLineRunner {
 	private AreaUrbanaRepository aURepository;	
 	@Autowired
 	private DistritoRepository distritoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository endRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -61,6 +70,19 @@ public class TestConfig implements CommandLineRunner {
 		
 		distritoRepository.saveAll(Arrays.asList(d1, d2));
 		aURepository.saveAll(Arrays.asList(au1, au2, au3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", TipoCliente.PESSOAFISICA);
+		
+		cli1.getTelefone().addAll(Arrays.asList("999999999", "999888888"));
+		
+		Endereco e1 = new Endereco(null, "Av republica", "lote A", "6 andar", "Marques de pombal", "00000-000", cli1, au1);
+		Endereco e2 = new Endereco(null, "Rua major caudas", "34", "1 esq", "Odivelas", "00000-000", cli1, au2);
+	
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		endRepository.saveAll(Arrays.asList(e1, e2));
+		
 	}
 
 }
