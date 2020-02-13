@@ -7,9 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.trabalho.cursomc.domain.AreaUrbana;
 import com.trabalho.cursomc.domain.Categoria;
+import com.trabalho.cursomc.domain.Distrito;
 import com.trabalho.cursomc.domain.Produto;
+import com.trabalho.cursomc.repositories.AreaUrbanaRepository;
 import com.trabalho.cursomc.repositories.CategoriaRepository;
+import com.trabalho.cursomc.repositories.DistritoRepository;
 import com.trabalho.cursomc.repositories.ProdutoRepository;
 
 @Configuration
@@ -18,9 +22,12 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private AreaUrbanaRepository aURepository;	
+	@Autowired
+	private DistritoRepository distritoRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -42,6 +49,18 @@ public class TestConfig implements CommandLineRunner {
 		
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		
+		Distrito d1 = new Distrito(null, "Lisboa");
+		Distrito d2 = new Distrito(null, "Porto");
+		
+		AreaUrbana au1 = new AreaUrbana(null, "Lisboa", d1);
+		AreaUrbana au2 = new AreaUrbana(null, "Odivelas", d1);
+		AreaUrbana au3 = new AreaUrbana(null, "Porto", d2);
+		
+		d1.getAreasUrbanas().addAll(Arrays.asList(au1, au2));
+		d2.getAreasUrbanas().addAll(Arrays.asList(au3));
+		
+		distritoRepository.saveAll(Arrays.asList(d1, d2));
+		aURepository.saveAll(Arrays.asList(au1, au2, au3));
 	}
 
 }
