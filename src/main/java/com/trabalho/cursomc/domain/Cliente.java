@@ -15,22 +15,25 @@ import javax.persistence.OneToMany;
 import com.trabalho.cursomc.domain.enuns.TipoCliente;
 
 @Entity
-public class Cliente implements Serializable{
+public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private String email;
 	private Integer tipo;
-	
+
 	@OneToMany(mappedBy = "cliente")
 	private Set<Endereco> enderecos = new HashSet<>();
-	
+
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefone = new HashSet<>();
+
+	@OneToMany(mappedBy = "cliente")
+	private Set<Pedido> pedidos = new HashSet<>();
 
 	public Cliente() {
 	}
@@ -91,6 +94,14 @@ public class Cliente implements Serializable{
 		this.telefone = telefone;
 	}
 
+	public Set<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(Set<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -115,6 +126,5 @@ public class Cliente implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }
