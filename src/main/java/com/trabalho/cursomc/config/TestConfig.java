@@ -13,6 +13,7 @@ import com.trabalho.cursomc.domain.Categoria;
 import com.trabalho.cursomc.domain.Cliente;
 import com.trabalho.cursomc.domain.Distrito;
 import com.trabalho.cursomc.domain.Endereco;
+import com.trabalho.cursomc.domain.ItemPedido;
 import com.trabalho.cursomc.domain.Pagamento;
 import com.trabalho.cursomc.domain.PagamentoBoleto;
 import com.trabalho.cursomc.domain.PagamentoCartao;
@@ -25,6 +26,7 @@ import com.trabalho.cursomc.repositories.CategoriaRepository;
 import com.trabalho.cursomc.repositories.ClienteRepository;
 import com.trabalho.cursomc.repositories.DistritoRepository;
 import com.trabalho.cursomc.repositories.EnderecoRepository;
+import com.trabalho.cursomc.repositories.ItemPedidoRepository;
 import com.trabalho.cursomc.repositories.PagamentoRepository;
 import com.trabalho.cursomc.repositories.PedidoRepository;
 import com.trabalho.cursomc.repositories.ProdutoRepository;
@@ -49,6 +51,8 @@ public class TestConfig implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository iPRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -110,6 +114,19 @@ public class TestConfig implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1,1000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 10.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 10.00, 1, 100.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		iPRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }
