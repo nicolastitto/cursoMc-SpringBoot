@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trabalho.cursomc.domain.enuns.TipoCliente;
 
 @Entity
@@ -32,6 +33,7 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefone = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private Set<Pedido> pedidos = new HashSet<>();
 
