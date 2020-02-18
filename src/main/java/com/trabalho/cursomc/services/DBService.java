@@ -115,7 +115,7 @@ public class DBService {
 		distritoRepository.saveAll(Arrays.asList(d1, d2));
 		aURepository.saveAll(Arrays.asList(au1, au2, au3));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "mrnicolastito.tito@gmail.com", TipoCliente.PESSOAFISICA);
 
 		cli1.getTelefone().addAll(Arrays.asList("999999999", "999888888"));
 
