@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.trabalho.cursomc.domain.ItemPedido;
 import com.trabalho.cursomc.domain.PagamentoBoleto;
@@ -38,6 +39,8 @@ public class PedidoService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
+	
+	@Transactional
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
