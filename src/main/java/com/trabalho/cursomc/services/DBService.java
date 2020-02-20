@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.trabalho.cursomc.domain.AreaUrbana;
@@ -51,6 +52,8 @@ public class DBService {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository iPRepository;
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	public void instantiateTestDatabase() throws ParseException {
 		Categoria cat1 = new Categoria(null, "Informática");
@@ -115,7 +118,7 @@ public class DBService {
 		distritoRepository.saveAll(Arrays.asList(d1, d2));
 		aURepository.saveAll(Arrays.asList(au1, au2, au3));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "mrnicolastito.tito@gmail.com", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "mrnicolastito.tito@gmail.com", TipoCliente.PESSOAFISICA, pe.encode("123"));
 
 		cli1.getTelefone().addAll(Arrays.asList("999999999", "999888888"));
 
